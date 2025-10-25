@@ -25,7 +25,7 @@ RUN --mount=type=bind,source=Sources,target=/build/Sources \
     swift build -c release \
         --product App \
         --static-swift-stdlib \
-        -Xswiftc --enable-incremental-file-hashing \
+#        -Xswiftc --enable-incremental-file-hashing \
         -Xlinker -ljemalloc && \
     cp "$(swift build -c release --show-bin-path)/App" /staging
 
