@@ -17,6 +17,10 @@ RUN swiftc --version
 
 RUN ls -a
 
+RUN swiftc -emit-supported-arguments | grep incremental-file-hashing
+
+RUN swiftc -help | grep -E -- '--(enable|disable)-incremental-file-hashing'
+
 RUN --mount=type=bind,source=Sources,target=/build/Sources \
     --mount=type=bind,source=Package.swift,target=/build/Package.swift \
     --mount=type=bind,source=Package.resolved,target=/build/Package.resolved \
@@ -26,7 +30,7 @@ RUN --mount=type=bind,source=Sources,target=/build/Sources \
         --static-swift-stdlib \
         -Xswiftc --enable-incremental-file-hashing \
         -Xlinker -ljemalloc && \
-    cp "$(swift build -c release --show-bin-path)/App" /staging \
+    cp "$(swift build -c release --show-bin-path)/App" /staging
 
 RUN ls -a
 
