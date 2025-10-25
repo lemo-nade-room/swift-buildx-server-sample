@@ -18,6 +18,7 @@ RUN swiftc --version
 RUN ls -a
 
 RUN --mount=type=bind,source=Sources,target=/build/Sources \
+    --mount=type=bind,source=Tests,target=/build/Tests \
     --mount=type=bind,source=Package.swift,target=/build/Package.swift \
     --mount=type=bind,source=Package.resolved,target=/build/Package.resolved \
     --mount=type=cache,target=/build/.build \
