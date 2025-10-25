@@ -1,4 +1,4 @@
-name: Swift Testing
+name: Docker BuildKit
 on:
   push:
     branches:
@@ -25,7 +25,7 @@ jobs:
 
       - run: |
           docker buildx build \
-            --cache-to=type=local,dest=./.build,mode=max \
-            --cache-from=type=local,src=./.build \
-            --tag swift-buildx-server-sample:lastest \
+            --cache-from type=gha,scope=swift-buildx-server-sample \
+            --cache-to   type=gha,mode=max,scope=swift-buildx-server-sample \
+            -t swift-buildx-server-sample:latest \
             .
