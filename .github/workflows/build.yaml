@@ -1,0 +1,31 @@
+name: Swift Testing
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    timeout-minutes: 30
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/cache@v4
+        with:
+          key: swift-build-${{ runner.os }}-${{ runner.arch }}
+          path: .build
+      - uses: docker/setup-buildx-action@v3
+      - run: ls -a
+
+      - run: docker --version
+
+      - run: |
+          docker buildx build \
+            --cache-to=type=local,dest=./.build,mode=max \
+            --cache-from=type=local,src=./.build \
+            --tag swift-buildx-server-sample:lastest \
+            .
